@@ -90,19 +90,11 @@ class TestBooksCollector:
     # у которых жанр не имеет возрастного рейтинга
     def test_get_books_for_children_positive_result(self):
 
-        genre_for_children = []
-        for i in self.collector.genre:
-            if i not in self.collector.genre_age_rating:
-                genre_for_children.append(i)
+        self.collector.books_genre = {'Кот в сапогах': 'Мультфильмы', 'Афоня': 'Комедии', \
+                                     'Оно': 'Ужасы', 'Двенадцать': 'Детективы', 'Книга без жанра': ''}
+        expected = ['Кот в сапогах', 'Афоня']
 
-        books_for_children = ['book for children ' + str(i) for i in range(len(genre_for_children))]
-        for i in range(len(genre_for_children)):
-            self.collector.books_genre[books_for_children[i]] = genre_for_children[i]
-
-        for i in range(len(self.collector.genre_age_rating)):
-            self.collector.books_genre['book NOT for children ' + str(i)] = self.collector.genre_age_rating[i]
-
-        assert self.collector.get_books_for_children() == books_for_children
+        assert sorted(self.collector.get_books_for_children()) == sorted(expected)
 
     # проверяем, что add_book_in_favorites — добавляет книгу в избранное
     # Книга должна находиться в словаре books_genre
