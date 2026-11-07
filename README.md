@@ -36,12 +36,19 @@
 
     # создает экземпляр (объект) класса BooksCollector 
     # перед каждым тестом
-    @pytest.fixture(autouse=True)
-    def create_instance_books_collector(self):
-        self.collector = BooksCollector()
+    @pytest.fixture
+    def collector():
+        return BooksCollector()
 
     # создает список избранного в экземпляре класса BooksCollector 
     @pytest.fixture
-    def create_list_of_favorites_books(self, create_instance_books_collector):
-        self.collector.favorites = ['Остров', 'Умка']
+    def collector_with_favorites(collector):
+        collector.favorites = ['Остров', 'Умка']
+        return collector
 
+    # создает словарь books_genre в экземпляре класса BooksCollector 
+    @pytest.fixture
+    def collector_with_books_genre(collector):
+        collector.books_genre = {'Кот в сапогах': 'Мультфильмы', 'Афоня': 'Комедии', \
+                                        'Оно': 'Ужасы', 'Двенадцать': 'Детективы', 'Книга без жанра': ''}
+        return collector
